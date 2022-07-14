@@ -13,6 +13,7 @@ const authService = {
     if (error) {
       error.name = 'ValidationError';
       error.message = 'Some required fields are missing';
+      error.status = 400;
       throw error;
     }
 
@@ -23,13 +24,19 @@ const authService = {
     const user = await db.User.findOne({ where: { email } });
 
     if (!user || user.password !== password) {
-      const err = new Error('Invalid fields');
-      err.name = 'UnauthorizedError';
-      throw err;
+      const error = new Error('Invalid fields');
+      error.name = 'UnauthorizedError';
+      error.status = 400;
+      throw error;
     }
 
     const token = jwtService.createToken(user);
     return token;
+  },
+
+  validateToken: async (token) => {
+    const data = jwtService.validateToken(token);
+    return data;
   },
 };
 
