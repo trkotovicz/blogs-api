@@ -6,5 +6,6 @@ const categoryController = require('../controllers/categoryController');
 const router = Router();
 
 router.post('/', authController.validateToken, categoryController.create);
+router.get('/', authController.validateToken, categoryController.list);
 
 module.exports = router;
