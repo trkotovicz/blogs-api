@@ -43,6 +43,19 @@ const userService = {
     const token = await jwtService.createToken(user);
     return token;
   },
+
+  getById: async (id) => {
+    const user = await db.User.findByPk(id, { attributes: { exclude: ['password'] } });
+
+    if (!user) {
+      const error = new Error('User does not exist');
+      error.name = 'NotFoundError';
+      error.status = 404;
+      throw error;
+    }
+
+    return user;
+  },
 };
 
 module.exports = userService;
