@@ -22,7 +22,7 @@ const userService = {
   },
 
   list: async () => {
-    const users = await DataView.User.findAll();
+    const users = await db.User.findAll({ attributes: { exclude: ['password'] } });
     return users;
   },
 

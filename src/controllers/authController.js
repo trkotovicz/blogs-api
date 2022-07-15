@@ -9,8 +9,8 @@ const authController = {
     res.status(200).json({ token });
   },
 
-  validateToken: async (req, _res, next) => {
-    const { authorization: { token } } = req.headers;
+  validateToken: async (req, res, next) => {
+    const token = req.headers.authorization;
 
     if (!token) {
       const error = new Error('Token not found');

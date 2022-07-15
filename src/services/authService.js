@@ -6,7 +6,7 @@ const authService = {
   validateBody: (data) => {
     const schema = Joi.object({
       email: Joi.string().email().required(),
-      password: Joi.string().required(),
+      password: Joi.string().required().min(6),
     });
 
     const { error, value } = schema.validate(data);
@@ -20,15 +20,17 @@ const authService = {
     return value;
   },
 
-  login: async (email, password) => {
+  login: async (email, pass) => {
     const user = await db.User.findOne({ where: { email } });
 
-    if (!user || user.password !== password) {
+    if (!user || user.password !== pass) {
       const error = new Error('Invalid fields');
       error.name = 'UnauthorizedError';
       error.status = 400;
       throw error;
     }
+
+    // const { password, ...userWithoutPassword } = user.dataValues;
 
     const token = jwtService.createToken(user);
     return token;
