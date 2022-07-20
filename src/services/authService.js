@@ -30,9 +30,9 @@ const authService = {
       throw error;
     }
 
-    // const { password, ...userWithoutPassword } = user.dataValues;
+    const { password, ...userWithoutPassword } = user.dataValues;
 
-    const token = jwtService.createToken(user);
+    const token = jwtService.createToken(userWithoutPassword);
     return token;
   },
 

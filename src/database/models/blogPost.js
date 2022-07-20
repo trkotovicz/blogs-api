@@ -5,6 +5,7 @@ const createBlogPost = (sequelize, DataTypes) => {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     title: DataTypes.STRING,
     content: DataTypes.STRING,
@@ -13,12 +14,10 @@ const createBlogPost = (sequelize, DataTypes) => {
       foreignKey: true,
     },
     published: {
-      type: DataTypes.DATE,
-      field: 'created_at'
+      type: DataTypes.DATE
     },
     updated: {
-      type: DataTypes.DATE,
-      field: 'updated_at'
+      type: DataTypes.DATE
     }
   }, {
       tableName: 'BlogPosts',

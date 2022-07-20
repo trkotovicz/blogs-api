@@ -19,7 +19,8 @@ const authController = {
       throw error;
     }
 
-    jwtService.validateToken(token);
+    const { data } = jwtService.validateToken(token);
+    req.userId = data.id;
 
     next();
   },
