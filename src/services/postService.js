@@ -92,6 +92,26 @@ const postService = {
     });
     return posts;
   },
+
+  getById: async (id) => {
+    const post = await db.BlogPost.findByPk(id, {
+      include: [
+        { model: db.User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: db.Category, as: 'categories' },
+      ],
+      attributes: { exclude: ['UserId'] },
+    });
+
+    if (!post) {
+      const error = new Error('Post does not exist');
+      error.name = 'NotFoundError';
+      error.status = 404;
+      throw error;
+    }
+
+    return post;
+  },
+
 };
 
 module.exports = postService;
