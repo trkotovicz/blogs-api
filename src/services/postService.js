@@ -1,5 +1,9 @@
 const Joi = require('joi');
+// const Sequelize = require('sequelize');
 const db = require('../database/models');
+// const config = require('../database/config/config');
+
+// const sequelize = new Sequelize(config.development);
 
 const postService = {
   validateBody: (data) => {
@@ -34,6 +38,10 @@ const postService = {
     }
 
     const post = await db.BlogPost.create({ title, content, categoryIds, userId });
+
+    await Promise.all(categoryIds.map((categoryId) =>
+      db.PostCategory.create({ postId: post.id, categoryId })));
+
     return post;
   },
 };
