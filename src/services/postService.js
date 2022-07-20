@@ -24,6 +24,43 @@ const postService = {
     return value;
   },
 
+  /* REFACTOR "create" COM TRANSACTION => EM DESENVOLVIMENTO
+  checkIds: (data) => {
+    const ids = data.map((category) => category.id);
+    const exists = data.every((id) => ids.includes(id));
+
+    if (!exists) {
+      const error = new Error('"categoryIds" not found');
+      error.name = 'NotFoundError';
+      error.status = 400;
+      throw error;
+    }
+  },
+
+  create: async (data) => {
+    const { title, content, categoryIds, userId } = data;
+    const categories = await db.Category.findAll();
+    await postService.checkIds(categories);
+
+    const t = await sequelize.transaction();
+
+    try {
+      const post = await db.BlogPost.create(
+        { title, content, categoryIds, userId }, { transaction: t },
+      );
+
+      await Promise.all(categoryIds.map((categoryId) =>
+        db.PostCategory.create(
+          { postId: post.id, categoryId }, { transaction: t },
+        )));
+      await t.commit();
+      return post;
+    } catch (error) {
+      await t.rollback();
+    }
+  },
+*/
+
   create: async (data) => {
     const { title, content, categoryIds, userId } = data;
     const categories = await db.Category.findAll();
@@ -38,11 +75,22 @@ const postService = {
     }
 
     const post = await db.BlogPost.create({ title, content, categoryIds, userId });
-
+  
     await Promise.all(categoryIds.map((categoryId) =>
       db.PostCategory.create({ postId: post.id, categoryId })));
-
+  
     return post;
+  },
+
+  list: async () => {
+    const posts = await db.BlogPost.findAll({
+      include: [
+        { model: db.User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: db.Category, as: 'categories' },
+      ],
+      attributes: { exclude: ['UserId'] },
+    });
+    return posts;
   },
 };
 
