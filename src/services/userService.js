@@ -56,6 +56,16 @@ const userService = {
 
     return user;
   },
+
+  checkUserId: async (token) => {
+    const { data } = jwtService.validateToken(token);
+    return data.id;
+  },
+
+  remove: async (id) => {
+    const user = await db.User.destroy({ where: { id } });
+    return user;
+  },
 };
 
 module.exports = userService;

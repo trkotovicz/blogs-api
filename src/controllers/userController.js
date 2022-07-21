@@ -20,6 +20,14 @@ const userController = {
 
     res.status(200).json(user);
   },
+
+  remove: async (req, res) => {
+    const token = req.headers.authorization;
+    const userId = await userService.checkUserId(token);
+    
+    await userService.remove(userId);
+    res.status(204).end();
+  },
 };
 
 module.exports = userController;
