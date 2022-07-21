@@ -1,5 +1,5 @@
 const Joi = require('joi');
-// const Sequelize = require('sequelize');
+const Sequelize = require('sequelize');
 const db = require('../database/models');
 const jwtService = require('./jwtService');
 // const config = require('../database/config/config');
@@ -157,6 +157,30 @@ const postService = {
   update: async ({ id, title, content }) => {
     const post = await db.BlogPost.update({ title, content }, { where: { id } });
     return post;
+  },
+
+  search: async (q) => {
+    const { Op } = Sequelize;
+    const posts = await db.BlogPost.findAll({
+      include: [
+        { model: db.User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: db.Category, as: 'categories' }],
+      attributes: { exclude: ['UserId'] },
+      where: { [Op.or]: {
+        title: { [Op.substring]: q },
+        content: { [Op.substring]: q },
+      } } });
+
+    if (!posts) {
+      return [];
+    }
+
+    if (q.length === 0 || q === '') {
+      const list = await postService.list();
+      return list;
+    }
+
+    return posts;
   },
 
 };

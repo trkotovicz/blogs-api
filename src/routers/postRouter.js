@@ -6,6 +6,7 @@ const postController = require('../controllers/postController');
 const router = Router();
 
 router.post('/', authController.validateToken, postController.create);
+router.get('/search', authController.validateToken, postController.search);
 router.get('/', authController.validateToken, postController.list);
 router.get('/:id', authController.validateToken, postController.getById);
 router.delete('/:id', authController.validateToken, postController.remove);
