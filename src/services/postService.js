@@ -25,6 +25,23 @@ const postService = {
     return value;
   },
 
+  validateUpdatedBody: (data) => {
+    const schema = Joi.object({
+      title: Joi.string().required(),
+      content: Joi.string().required(),
+    });
+
+    const { error, value } = schema.validate(data);
+    if (error) {
+      error.name = 'ValidationError';
+      error.status = 400;
+      error.message = 'Some required fields are missing';
+      throw error;
+    }
+
+    return value;
+  },
+
   /* REFACTOR "create" COM TRANSACTION => EM DESENVOLVIMENTO
   checkIds: (data) => {
     const ids = data.map((category) => category.id);
@@ -134,6 +151,11 @@ const postService = {
       error.status = 404;
       throw error;
     }
+    return post;
+  },
+
+  update: async ({ id, title, content }) => {
+    const post = await db.BlogPost.update({ title, content }, { where: { id } });
     return post;
   },
 

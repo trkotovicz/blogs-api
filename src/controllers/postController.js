@@ -31,6 +31,19 @@ const postController = {
     res.status(204).end();
   },
 
+  update: async (req, res) => {
+    const { id } = req.params;
+    const { title, content } = await postService.validateUpdatedBody(req.body);
+    const token = req.headers.authorization;
+
+    await postService.checkIfIsAuthorized(token, id);
+
+    await postService.update({ id, title, content });
+    const post = await postService.getById(id);
+    
+    res.status(200).json(post);
+  },
+
 };
 
 module.exports = postController;
