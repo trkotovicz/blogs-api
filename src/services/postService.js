@@ -1,6 +1,7 @@
 const Joi = require('joi');
 // const Sequelize = require('sequelize');
 const db = require('../database/models');
+const jwtService = require('./jwtService');
 // const config = require('../database/config/config');
 
 // const sequelize = new Sequelize(config.development);
@@ -109,6 +110,30 @@ const postService = {
       throw error;
     }
 
+    return post;
+  },
+
+  checkIfIsAuthorized: async (token, id) => {
+    const { data } = jwtService.validateToken(token);
+    const postId = await postService.getById(id);
+
+    if (postId.userId !== data.id) {
+      const error = new Error('Unauthorized user');
+      error.name = 'UnauthorizedError';
+      error.status = 401;
+      throw error;
+    }
+  },
+
+  remove: async (id) => {
+    const post = await db.BlogPost.destroy({ where: { id } });
+
+    if (!post) {
+      const error = new Error('Post does not exist');
+      error.name = 'NotFoundError';
+      error.status = 404;
+      throw error;
+    }
     return post;
   },
 

@@ -21,6 +21,16 @@ const postController = {
     res.status(200).json(post);
   },
   
+  remove: async (req, res) => {
+    const { id } = req.params;
+    const token = req.headers.authorization;
+
+    await postService.checkIfIsAuthorized(token, id);
+
+    await postService.remove(id);
+    res.status(204).end();
+  },
+
 };
 
 module.exports = postController;
