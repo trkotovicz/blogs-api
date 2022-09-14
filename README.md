@@ -65,17 +65,32 @@ Para isso, adicione o token de autenticação nos headers, no campo `Authorizati
 ### GET `/user`
 
 Essa rota lista todos os usuários cadastrados.</br>
+
 `http://localhost:3000/user`
+</br>
+
+### GET `/user/:id`
+
+Essa rota exibe um usuário com base no id do endpoint.</br>
+Para isso, substitua no endpoint o `:id` pelo id de usuário que você deseja buscar (o id deve ser um número inteiro).
+
+`http://localhost:3000/user/:id`
+</br>
+
+### GET `/categories`
+
+Essa rota exibe a lista de categorias cadastradas.</br>
+
+`http://localhost:3000/categories`
+</br>
 
 
 
 
 <!--
-### GET `/user/:id`
 
 ### DELETE `/user/me`
 
-### GET `/categories`
 -->
 
 
@@ -93,17 +108,21 @@ O corpo da requisição deve ter o seguinte formato:
 `http://localhost:3000/user`
 
 
-
-
-<!-- 
 ### GET `/post`
+
+Essa rota exibe todos os posts do blog.</br>
+
+`http://localhost:3000/post`
+</br>
 
 
 ### GET `/post/:id`
--->
 
+Essa rota exibe um um post com base no id do endpoint.</br>
+Para isso, substitua no endpoint o `:id` pelo id do post que você deseja buscar (o id deve ser um número inteiro).
 
-
+`http://localhost:3000/post/:id`
+</br>
 
 
 ### POST `/post`
@@ -134,18 +153,15 @@ O corpo da requisição deve ter um título, o conteúdo do post e os ids das ca
 
 ---
 
-### GET `/user/:id`
-
 ### DELETE `/user/me`
-
-### GET `/categories`
-
-### GET `/post`
-
-### GET `/post/:id`
 
 ### PUT `/post/:id`
 
 ### DELETE `/post/:id`
 
 ### GET `/post/search`
+
+---
+
+Projeto desenvolvido por [Thais R Kotovicz](https://www.linkedin.com/in/thaiskotovicz/).
+</br>
