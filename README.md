@@ -1,6 +1,6 @@
 # Blogs API
 
-O Blogs API é uma ma API REST e um banco de dados para a produção de conteúdo para um blog, onde você pode fazer requisições HTTP para criar, consultar, atualizar e deletar posts, categorias e usuários de um blog (CRUD). Tem autenticação de usuário, com JWT (Json Web Token), e você só pode alterar um post que você mesmo criou.</br>
+O Blogs API é uma ma API REST e um banco de dados para a produção de conteúdo para um blog, onde você pode fazer requisições HTTP para criar, consultar, atualizar e deletar posts, categorias e usuários de um blog. Tem autenticação de usuário, com JWT (Json Web Token), e você só pode alterar um post que você mesmo criou.</br>
 Ele foi desenvolvido em JS, utilizando o banco de dados MySQL, com Express e o ORM Sequelize. Utiliza a arquitetura de camadas MSC.</br>
 
 ## Inicialização via Docker 🐳
